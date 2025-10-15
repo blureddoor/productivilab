@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root{--brand:#3A4861;--accent:#FF6B3D}
+body{color:#22262A;background:#F5F7FA}
