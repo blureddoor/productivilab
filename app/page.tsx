@@ -28,10 +28,13 @@ export default function Page() {
   const t = useMemo(() => dictionaries[locale], [locale]);
   const L = useMemo(() => linksFor(locale), [locale]);
 
+  const gumroadBtn = "rounded-xl border border-slate-800 text-slate-800 px-6 py-3 font-semibold hover:bg-slate-50";
+
   return (
     <main className="mx-auto max-w-6xl px-6 pb-16">
       <BrandHeader />
 
+      {/* Hero */}
       <div className="flex items-start justify-between gap-4">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-800">{t.heroH1}</h1>
@@ -49,7 +52,7 @@ export default function Page() {
               </a>
             )}
             {L.gumroad && (
-              <a href={L.gumroad} target="_blank" className="rounded-xl border border-slate-800 text-slate-800 px-6 py-3 font-semibold hover:bg-slate-50">
+              <a href={L.gumroad} target="_blank" className={gumroadBtn}>
                 {t.ctas.gumroad}
               </a>
             )}
@@ -59,6 +62,7 @@ export default function Page() {
         <LanguageSwitch onChange={(l)=>setLocale(l)} />
       </div>
 
+      {/* Video Tour por idioma */}
       {L.tourYT && (
         <section className="mt-12">
           <div className="aspect-video w-full overflow-hidden rounded-2xl border shadow-sm">
@@ -72,17 +76,19 @@ export default function Page() {
           </div>
         </section>
       )}
-      {/* Storytelling */}
-        <section className="mt-14 rounded-2xl border bg-white p-6">
-          <h2 className="text-2xl font-bold text-slate-800">{(t as any).story?.title}</h2>
-            <p className="mt-2 text-slate-700">{(t as any).story?.lead}</p>
-              <ul className="mt-4 space-y-2 text-slate-700">
-            {((t as any).story?.bullets || []).map((line: string, i: number) => (
-          <li key={i}>{line}</li>
-        ))}
-        </ul>
-        </section>
 
+      {/* Storytelling (pain -> solution -> outcome) */}
+      <section className="mt-14 rounded-2xl border bg-white p-6">
+        <h2 className="text-2xl font-bold text-slate-800">{(t as any).story?.title}</h2>
+        <p className="mt-2 text-slate-700">{(t as any).story?.lead}</p>
+        <ul className="mt-4 space-y-2 text-slate-700">
+          {((t as any).story?.bullets || []).map((line: string, i: number) => (
+            <li key={i}>{line}</li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Qué puedes hacer */}
       <section className="mt-16">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.featuresTitle}</h2>
         <ul className="mt-6 grid md:grid-cols-2 gap-3 text-slate-700">
@@ -90,6 +96,7 @@ export default function Page() {
         </ul>
       </section>
 
+      {/* Cómo funciona */}
       <section className="mt-16">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.howItWorks}</h2>
         <ol className="mt-6 grid md:grid-cols-3 gap-4 text-slate-700">
@@ -99,6 +106,7 @@ export default function Page() {
         </ol>
       </section>
 
+      {/* Qué incluye */}
       <section className="mt-16">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.insideTitle}</h2>
         <ul className="mt-6 grid md:grid-cols-2 gap-3 text-slate-700">
@@ -106,6 +114,7 @@ export default function Page() {
         </ul>
       </section>
 
+      {/* CTA final */}
       <section className="mt-16 rounded-2xl border p-6 flex flex-wrap items-center justify-between gap-4">
         <div className="text-slate-800 font-semibold">
           {locale === 'es' ? 'Empieza a controlar tu rentabilidad hoy mismo' : 'Start tracking your real profitability today'}
@@ -117,7 +126,7 @@ export default function Page() {
             </a>
           )}
           {L.demo && (
-            <a href={L.demo} target="_blank" className="rounded-xl border px-6 py-3 font-semibold">
+            <a href={L.demo} target="_blank" className={gumroadBtn}>
               {locale === 'es' ? 'Probar demo' : 'Try demo'}
             </a>
           )}
