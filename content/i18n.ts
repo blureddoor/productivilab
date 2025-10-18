@@ -28,7 +28,15 @@ export const dictionaries = {
       'Actualizaciones menores incluidas',
     ],
     faqTitle: 'Preguntas frecuentes',
-  },
+    story: {
+    title: '¿Por qué este planner?',
+    lead: 'Muchos e-commerce invierten en anuncios sin saber si realmente ganan dinero.',
+    bullets: [
+    '• Pain: ver ROAS “bonitos” pero márgenes erosionados por IVA, pasarela y fees.',
+    '• Solución: calcula margen real, ROAS y CPA clásico vs económico (ventas atribuidas).',
+    '• Resultado: decisiones claras — qué escalar, qué pausar y a qué precio ser rentable.'
+  ]
+},
   en: {
     heroH1: 'Track your real profitability in Excel and Google Sheets',
     heroP: 'Measure margin, ROAS, classic vs economic CPA, and break-even by channel and campaign.',
@@ -56,5 +64,14 @@ export const dictionaries = {
       'Minor updates included',
     ],
     faqTitle: 'FAQ',
+    story: {
+  title: 'Why this planner?',
+  lead: 'Many e-commerce stores spend on ads without knowing if they truly profit.',
+  bullets: [
+    '• Pain: “nice” ROAS while margins get eaten by VAT, gateways and platform fees.',
+    '• Solution: compute real margin, ROAS, and classic vs economic CPA (attributed sales).',
+    '• Outcome: clear decisions — what to scale, what to pause, and at which price you’re profitable.'
+  ]
+}
   },
 } as const;

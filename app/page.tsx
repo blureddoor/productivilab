@@ -10,7 +10,7 @@ function BrandHeader() {
   return (
     <div className="max-w-6xl mx-auto px-6 pt-8 pb-2">
       <div className="flex items-center gap-3">
-        <Image src="/logo-productivilab.png" alt="ProductiviLab" width={160} height={40} className="h-10 w-auto" priority />
+        <Image src="/logo-productivilab.png" alt="ProductiviLab" width={240} height={56} className="h-8 w-auto md:h-12 lg:h-14" priority />
       </div>
     </div>
   );
@@ -49,7 +49,7 @@ export default function Page() {
               </a>
             )}
             {L.gumroad && (
-              <a href={L.gumroad} target="_blank" className="rounded-xl border px-6 py-3 font-semibold">
+              <a href={L.gumroad} target="_blank" className="rounded-xl border border-slate-800 text-slate-800 px-6 py-3 font-semibold hover:bg-slate-50">
                 {t.ctas.gumroad}
               </a>
             )}
@@ -72,6 +72,16 @@ export default function Page() {
           </div>
         </section>
       )}
+      {/* Storytelling */}
+        <section className="mt-14 rounded-2xl border bg-white p-6">
+          <h2 className="text-2xl font-bold text-slate-800">{(t as any).story?.title}</h2>
+            <p className="mt-2 text-slate-700">{(t as any).story?.lead}</p>
+              <ul className="mt-4 space-y-2 text-slate-700">
+            {((t as any).story?.bullets || []).map((line: string, i: number) => (
+          <li key={i}>{line}</li>
+        ))}
+        </ul>
+        </section>
 
       <section className="mt-16">
         <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.featuresTitle}</h2>
