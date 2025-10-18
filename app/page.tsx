@@ -10,7 +10,7 @@ function BrandHeader() {
   return (
     <div className="max-w-6xl mx-auto px-6 pt-8 pb-2">
       <div className="flex items-center gap-3">
-        <Image src="/logo-productivilab.png" alt="ProductiviLab" width={240} height={56} className="h-8 w-auto md:h-12 lg:h-14" priority />
+        <Image src="/logo-productivilab.png" alt="ProductiviLab" width={480} height={112} className="h-8 w-auto md:h-12 lg:h-14" priority />
       </div>
     </div>
   );
