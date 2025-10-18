@@ -1,88 +1,118 @@
-export default function Page(){
-  const ETSY=process.env.NEXT_PUBLIC_ETSY_URL||"#";
-  const GUMROAD=process.env.NEXT_PUBLIC_GUMROAD_URL||"#";
-  return(<main className="min-h-screen">
-    <section className="max-w-6xl mx-auto px-4 py-16 grid md:grid-cols-2 gap-10 items-center">
-      <div>
-        <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-[var(--brand)]">
-          Controla tu rentabilidad real en Excel y Google Sheets
-        </h1>
-        <p className="mt-5 text-lg leading-relaxed text-[#374151]">
-          Mide <strong>margen</strong>, <strong>ROAS</strong>, <strong>CPA</strong> y <strong>break‑even</strong> por canal y campaña.
-        </p>
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
-          <a href="#" className="rounded-xl bg-[var(--brand)] text-white px-6 py-3 font-semibold hover:brightness-95 text-center">
-            Probar demo en Google Sheets
-          </a>
-          <div className="flex gap-3">
-            <a href={ETSY} className="rounded-xl bg-[var(--accent)] text-white px-5 py-3 font-semibold hover:brightness-95">Comprar en Etsy</a>
-            <a href={GUMROAD} className="rounded-xl border border-[var(--brand)] px-5 py-3 font-semibold hover:bg-white">Gumroad</a>
+'use client';
+import { useMemo, useState } from 'react';
+import Image from 'next/image';
+import type { Locale } from '@/content/i18n';
+import { dictionaries } from '@/content/i18n';
+import { linksFor } from '@/lib/links';
+import LanguageSwitch from '@/components/LanguageSwitch';
+
+function BrandHeader() {
+  return (
+    <div className="max-w-6xl mx-auto px-6 pt-8 pb-2">
+      <div className="flex items-center gap-3">
+        <Image src="/logo-productivilab.png" alt="ProductiviLab" width={160} height={40} className="h-10 w-auto" priority />
+      </div>
+    </div>
+  );
+}
+
+function toEmbed(url?: string) {
+  if (!url) return '';
+  if (url.includes('watch?v=')) return url.replace('watch?v=', 'embed/');
+  if (url.includes('youtu.be/')) return url.replace('youtu.be/', 'www.youtube.com/embed/');
+  return url;
+}
+
+export default function Page() {
+  const [locale, setLocale] = useState<Locale>(() => (typeof window !== 'undefined' && (localStorage.getItem('lang') as Locale)) || 'es');
+  const t = useMemo(() => dictionaries[locale], [locale]);
+  const L = useMemo(() => linksFor(locale), [locale]);
+
+  return (
+    <main className="mx-auto max-w-6xl px-6 pb-16">
+      <BrandHeader />
+
+      <div className="flex items-start justify-between gap-4">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-800">{t.heroH1}</h1>
+          <p className="mt-4 text-lg text-slate-600">{t.heroP}</p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            {L.demo && (
+              <a href={L.demo} target="_blank" className="rounded-xl bg-[#FF5733] text-white px-6 py-3 font-semibold hover:brightness-95">
+                {t.ctas.demo}
+              </a>
+            )}
+            {L.etsy && (
+              <a href={L.etsy} target="_blank" className="rounded-xl bg-slate-800 text-white px-6 py-3 font-semibold hover:brightness-95">
+                {t.ctas.etsy}
+              </a>
+            )}
+            {L.gumroad && (
+              <a href={L.gumroad} target="_blank" className="rounded-xl border px-6 py-3 font-semibold">
+                {t.ctas.gumroad}
+              </a>
+            )}
           </div>
         </div>
-        <div className="mt-4 flex items-center gap-2 text-sm text-[#6b7280]">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/80 border px-3 py-1">ES/EN</span>
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/80 border px-3 py-1">Excel + Google Sheets</span>
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/80 border px-3 py-1">EU VAT ready</span>
+
+        <LanguageSwitch onChange={(l)=>setLocale(l)} />
+      </div>
+
+      {L.tourYT && (
+        <section className="mt-12">
+          <div className="aspect-video w-full overflow-hidden rounded-2xl border shadow-sm">
+            <iframe
+              className="h-full w-full"
+              src={toEmbed(L.tourYT)}
+              title="ProductiviLab Tour"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </section>
+      )}
+
+      <section className="mt-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.featuresTitle}</h2>
+        <ul className="mt-6 grid md:grid-cols-2 gap-3 text-slate-700">
+          {t.features.map((f, i) => <li key={i} className="leading-relaxed">• {f}</li>)}
+        </ul>
+      </section>
+
+      <section className="mt-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.howItWorks}</h2>
+        <ol className="mt-6 grid md:grid-cols-3 gap-4 text-slate-700">
+          {t.how.map((step, i) => (
+            <li key={i} className="rounded-xl border p-4 bg-white">{i+1}. {step}</li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="mt-16">
+        <h2 className="text-2xl md:text-3xl font-bold text-slate-800">{t.insideTitle}</h2>
+        <ul className="mt-6 grid md:grid-cols-2 gap-3 text-slate-700">
+          {t.inside.map((f, i) => <li key={i}>• {f}</li>)}
+        </ul>
+      </section>
+
+      <section className="mt-16 rounded-2xl border p-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="text-slate-800 font-semibold">
+          {locale === 'es' ? 'Empieza a controlar tu rentabilidad hoy mismo' : 'Start tracking your real profitability today'}
         </div>
-      </div>
-      <div className="rounded-2xl bg-white shadow-xl border p-4">
-        <img src="/hero-dashboard.png" alt="Dashboard" className="rounded-lg w-full h-auto" />
-      </div>
-    </section>
-  </main>);
+        <div className="flex gap-3">
+          {L.gumroad && (
+            <a href={L.gumroad} target="_blank" className="rounded-xl bg-[#FF5733] text-white px-6 py-3 font-semibold hover:brightness-95">
+              {locale === 'es' ? 'Comprar ahora' : 'Buy now'}
+            </a>
+          )}
+          {L.demo && (
+            <a href={L.demo} target="_blank" className="rounded-xl border px-6 py-3 font-semibold">
+              {locale === 'es' ? 'Probar demo' : 'Try demo'}
+            </a>
+          )}
+        </div>
+      </section>
+    </main>
+  );
 }
-{/* Sección: Cómo funciona en 3 pasos */}
-<section className="bg-white/60 border-t">
-  <div className="max-w-6xl mx-auto px-4 py-14 grid md:grid-cols-3 gap-8">
-    <div>
-      <h3 className="text-xl font-bold text-[var(--brand)]">1) Configura</h3>
-      <p className="text-[#374151] mt-2">Moneda, IVA, comisiones de pasarela y fees por canal en <strong>SETTINGS</strong>.</p>
-    </div>
-    <div>
-      <h3 className="text-xl font-bold text-[var(--brand)]">2) Pega tus datos</h3>
-      <p className="text-[#374151] mt-2">Pedidos en <strong>SALES_RAW</strong> y campañas en <strong>ADS</strong> (gasto, conversiones y ventas atribuidas).</p>
-    </div>
-    <div>
-      <h3 className="text-xl font-bold text-[var(--brand)]">3) Decide</h3>
-      <p className="text-[#374151] mt-2">Mira <strong>DASHBOARD</strong>: margen, ROAS, <strong>CPA vs BE</strong> y Top SKUs.</p>
-    </div>
-  </div>
-</section>
-
-{/* Sección: Qué incluye */}
-<section className="max-w-6xl mx-auto px-4 py-14">
-  <h2 className="text-3xl font-bold text-[var(--brand)]">Qué incluye</h2>
-  <ul className="mt-6 grid md:grid-cols-2 gap-4 text-[#374151]">
-    <li>✔️ Excel y Google Sheets (ES/EN)</li>
-    <li>✔️ KPIs clave: Margen, ROAS, CPA y Break-even</li>
-    <li>✔️ Escenarios de promo y alertas de margen</li>
-    <li>✔️ Demo /copy + Guía rápida PDF</li>
-  </ul>
-</section>
-
-{/* Sección: FAQ corta */}
-<section className="bg-white/60 border-t">
-  <div className="max-w-6xl mx-auto px-4 py-14">
-    <h2 className="text-3xl font-bold text-[var(--brand)]">Preguntas frecuentes</h2>
-    <div className="mt-6 grid md:grid-cols-2 gap-6 text-[#374151]">
-      <div>
-        <h3 className="font-semibold">¿Funciona con Excel y Google Sheets?</h3>
-        <p>Sí, entregamos ambas versiones y están sincronizadas.</p>
-      </div>
-      <div>
-        <h3 className="font-semibold">¿Cómo calculáis el CPA?</h3>
-        <p>CPA clásico por conversión y CPA real por ventas atribuidas (económico). Verás ambos en <strong>ADS</strong> y el total en <strong>CALCULATIONS</strong>.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-{/* CTA final */}
-<section className="max-w-6xl mx-auto px-4 py-14 text-center">
-  <h2 className="text-3xl font-bold text-[var(--brand)]">Empieza hoy</h2>
-  <p className="text-[#374151] mt-2">Toma decisiones con datos reales en menos de 10 minutos.</p>
-  <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
-    <a href={process.env.NEXT_PUBLIC_DEMO_URL || "#"} className="rounded-xl bg-[var(--brand)] text-white px-6 py-3 font-semibold hover:brightness-95">Probar demo</a>
-    <a href={process.env.NEXT_PUBLIC_GUMROAD_URL || "#"} className="rounded-xl border border-[var(--brand)] px-6 py-3 font-semibold hover:bg-white">Comprar</a>
-  </div>
-</section>
