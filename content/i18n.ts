@@ -2,77 +2,89 @@ export type Locale = 'es' | 'en';
 
 export const dictionaries = {
   es: {
-    heroH1: 'Controla tu rentabilidad real en Excel y Google Sheets',
-    heroP: 'Mide margen, ROAS, CPA clásico vs económico y punto de equilibrio por canal y campaña.',
-    ctas: { demo: 'Probar demo en Google Sheets', etsy: 'Comprar en Etsy', gumroad: 'Ver en Gumroad' },
+    nav: { products: 'Productos', how: 'Cómo funciona', reviews: 'Reseñas', faq: 'FAQ', support: 'Soporte' },
+    heroH1: 'Plantillas en Excel & Google Sheets para decidir con datos',
+    heroP: 'Mide margen real, ROAS y stock crítico. Sin macros. EU VAT‑ready.',
+    ctas: { demo: 'Probar demo', gumroad: 'Comprar en Gumroad', etsy: 'Ver en Etsy', buyNow: 'Comprar ahora', seeAll: 'Ver todos →' },
+    badges: ['Excel + Google Sheets', 'ES/EN', 'EU‑ready'],
+    productsTitle: 'Más herramientas',
     featuresTitle: 'Qué puedes hacer',
-    features: [
-      'Calcular margen real, ROAS y CPA por canal y campaña',
-      'Comparar CPA clásico vs CPA económico (ventas atribuidas)',
-      'Alertas de productos en pérdida y Top SKUs',
-      'Simular promos, envío gratis y cambios de fees',
-      'EU VAT ready · ES/EN · 100% editable (sin macros)',
+    howTitle: 'Cómo funciona',
+    howSteps: [
+      { title: 'Descarga', desc: 'Obtén la plantilla en Excel o abre la versión de Google Sheets.' },
+      { title: 'Configura', desc: 'Define IVA, comisiones, canales y datos base en minutos.' },
+      { title: 'Decide', desc: 'Mira los indicadores y toma decisiones claras: escalar, pausar o reponer.' }
     ],
-    howItWorks: 'Cómo funciona',
-    how: [
-      'Configura moneda, IVA y fees por canal en SETTINGS',
-      'Pega ventas en SALES_RAW y campañas en ADS',
-      'Analiza en CALCULATIONS y el DASHBOARD',
+    video35: 'Ver vídeo (35 s)',
+    forWhomTitle: '¿Para quién es?',
+    forWhom: [
+      'Tiendas DTC: ROAS “bonito” vs rentabilidad real.',
+      'Gestores de ads: CPA clásico vs CPA económico (ventas atribuidas).',
+      'Operaciones/Compras: puntos de pedido y reposición sin roturas.'
     ],
-    insideTitle: 'Qué incluye el pack',
-    inside: [
-      'Excel (CLEAN + DEMO)',
-      'Google Sheets (CLEAN + DEMO /copy)',
-      'Guía rápida PDF (ES/EN)',
-      '2 vídeos: Tour + Caso práctico (ES/EN)',
-      'Actualizaciones menores incluidas',
+    outcomesTitle: 'Resultados que puedes esperar',
+    outcomes: [
+      '+ Visibilidad de margen por canal/campaña',
+      '– Errores en precios y promos',
+      '– Roturas por falta de stock',
+      '+ Velocidad para decidir (dashboard claro)'
     ],
-    story: {
-      title: '¿Por qué este planner?',
-      lead: 'Muchos e-commerce invierten en anuncios sin saber si realmente ganan dinero.',
-      bullets: [
-        '• Pain: ver ROAS “bonitos” pero márgenes erosionados por IVA, pasarela y fees.',
-        '• Solución: calcula margen real, ROAS y CPA clásico vs económico (ventas atribuidas).',
-        '• Resultado: decisiones claras — qué escalar, qué pausar y a qué precio ser rentable.'
-      ]
-    },
-    faqTitle: 'Preguntas frecuentes',
+    reviewsTitle: 'Reseñas',
+    reviews: [
+      { name: 'Ana — Tienda DTC', text: 'Por fin vemos el margen real con todos los costes. Evitamos promos que nos dejaban en pérdida.' },
+      { name: 'Carlos — Paid Media', text: 'El CPA económico cambió nuestras decisiones de escalado. Mucho más preciso.' }
+    ],
+    faqTitle: 'FAQ',
+    faq: [
+      { q: '¿Incluye IVA y tarifas?', a: 'Sí. Puedes configurar IVA, comisiones de pasarela y fees de marketplace en SETTINGS.' },
+      { q: '¿Hay demo?', a: 'Sí. Abre la demo en Google Sheets (ES/EN) con enlace /copy.' },
+      { q: '¿Necesita macros?', a: 'No. 100% editable sin macros.' },
+      { q: '¿Actualizaciones?', a: 'Incluimos actualizaciones menores. Te avisamos por email.' },
+      { q: '¿Idiomas?', a: 'ES y EN. Puedes cambiar de idioma en la web y en los documentos.' },
+      { q: '¿Soporte?', a: 'Soporte por email 24/48 h: soporte@productivilab.com' }
+    ]
   },
   en: {
-    heroH1: 'Track your real profitability in Excel and Google Sheets',
-    heroP: 'Measure margin, ROAS, classic vs economic CPA, and break-even by channel and campaign.',
-    ctas: { demo: 'Try demo in Google Sheets', etsy: 'Buy on Etsy', gumroad: 'View on Gumroad' },
+    nav: { products: 'Products', how: 'How it works', reviews: 'Reviews', faq: 'FAQ', support: 'Support' },
+    heroH1: 'Excel & Google Sheets templates to make data‑driven decisions',
+    heroP: 'Track true margin, ROAS and critical stock. No macros. EU VAT‑ready.',
+    ctas: { demo: 'Try demo', gumroad: 'Buy on Gumroad', etsy: 'See on Etsy', buyNow: 'Buy now', seeAll: 'See all →' },
+    badges: ['Excel + Google Sheets', 'ES/EN', 'EU‑ready'],
+    productsTitle: 'More tools',
     featuresTitle: 'What you can do',
-    features: [
-      'Calculate real margin, ROAS and CPA by channel and campaign',
-      'Compare classic vs economic CPA (attributed sales)',
-      'Loss alerts and Top SKUs',
-      'Simulate promos, free shipping and fee changes',
-      'EU VAT ready · ES/EN · 100% editable (no macros)',
+    howTitle: 'How it works',
+    howSteps: [
+      { title: 'Download', desc: 'Get the Excel file or open the Google Sheets version.' },
+      { title: 'Configure', desc: 'Set VAT, payment gateway fees, channels and base data in minutes.' },
+      { title: 'Decide', desc: 'Read the metrics and make clear decisions: scale, pause or restock.' }
     ],
-    howItWorks: 'How it works',
-    how: [
-      'Set currency, VAT and channel fees in SETTINGS',
-      'Paste sales into SALES_RAW and campaigns into ADS',
-      'Analyze in CALCULATIONS and the DASHBOARD',
+    video35: 'Watch video (35 s)',
+    forWhomTitle: 'Who is it for?',
+    forWhom: [
+      'DTC stores: “nice” ROAS vs true profitability.',
+      'Ad managers: classic vs economic CPA (attributed sales).',
+      'Ops/Purchasing: reorder points and restock without stockouts.'
     ],
-    insideTitle: 'What’s included',
-    inside: [
-      'Excel (CLEAN + DEMO)',
-      'Google Sheets (CLEAN + DEMO /copy)',
-      'Quick Guide PDF (EN/ES)',
-      '2 videos: Tour + Case Study (EN/ES)',
-      'Minor updates included',
+    outcomesTitle: 'Outcomes you can expect',
+    outcomes: [
+      '+ Visibility of margin by channel/campaign',
+      '– Pricing/promo mistakes',
+      '– Stockouts from lack of visibility',
+      '+ Faster decisions (clear dashboard)'
     ],
-    story: {
-      title: 'Why this planner?',
-      lead: 'Many e-commerce stores spend on ads without knowing if they truly profit.',
-      bullets: [
-        '• Pain: “nice” ROAS while margins get eaten by VAT, gateways and platform fees.',
-        '• Solution: compute real margin, ROAS, and classic vs economic CPA (attributed sales).',
-        '• Outcome: clear decisions — what to scale, what to pause, and at which price you’re profitable.'
-      ]
-    },
+    reviewsTitle: 'Reviews',
+    reviews: [
+      { name: 'Anna — DTC Store', text: 'Finally we see true margin with every cost. We stopped loss‑making promos.' },
+      { name: 'Charles — Paid Media', text: 'Economic CPA changed our scaling decisions. Way more accurate.' }
+    ],
     faqTitle: 'FAQ',
-  },
+    faq: [
+      { q: 'Do you include VAT and fees?', a: 'Yes. Set VAT, gateways and marketplace fees in SETTINGS.' },
+      { q: 'Is there a demo?', a: 'Yes. Open the Google Sheets demo (ES/EN) via /copy link.' },
+      { q: 'Any macros?', a: 'No. 100% editable, no macros.' },
+      { q: 'Updates?', a: 'We include minor updates. We will notify you by email.' },
+      { q: 'Languages?', a: 'ES and EN. You can switch language on the site and in the documents.' },
+      { q: 'Support?', a: 'Support within 24/48h: soporte@productivilab.com' }
+    ]
+  }
 } as const;

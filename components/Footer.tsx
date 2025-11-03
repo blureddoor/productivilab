@@ -8,11 +8,12 @@ export default function Footer() {
           <span>Herramientas para e‑commerce</span>
         </div>
         <nav className="flex flex-wrap gap-x-4 gap-y-2">
-          <a href="/(site)/legal/aviso-legal" className="hover:text-[#3A4861]">Aviso legal</a>
-          <a href="/(site)/legal/politica-privacidad" className="hover:text-[#3A4861]">Privacidad</a>
-          <a href="/(site)/legal/politica-cookies" className="hover:text-[#3A4861]">Cookies</a>
-          <a href="/(site)/legal/terminos-condiciones" className="hover:text-[#3A4861]">Términos</a>
+          <a href="/legal/aviso-legal" className="hover:text-[#3A4861]">Aviso legal</a>
+          <a href="/legal/politica-privacidad" className="hover:text-[#3A4861]">Privacidad</a>
+          <a href="/legal/politica-cookies" className="hover:text-[#3A4861]">Cookies</a>
+          <a href="/legal/terminos-condiciones" className="hover:text-[#3A4861]">Términos</a>
           <a href="mailto:soporte@productivilab.com" className="hover:text-[#3A4861]">Soporte</a>
+          <a href="/products" className="hover:text-[#3A4861]">Productos</a>
         </nav>
         <div>© ProductiviLab – Leonard Daniel Vintila – 2025</div>
       </div>
