@@ -24,7 +24,7 @@ export default function ProductCard({ p, locale }: { p: Product; locale: Locale 
         <div className="mt-3 flex flex-wrap gap-2 text-xs">
           <span className="rounded-full border px-2 py-1 text-slate-600">Excel + Google Sheets</span>
           <span className="rounded-full border px-2 py-1 text-slate-600">ES/EN</span>
-          <span className="rounded-full border px-2 py-1 text-slate-600">EU‑ready</span>
+          <span className="rounded-full border px-2 py-1 text-slate-600">EU-ready</span>
         </div>
 
         {price && <div className="mt-3 text-slate-700 font-medium">{price}</div>}

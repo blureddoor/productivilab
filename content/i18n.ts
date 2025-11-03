@@ -4,9 +4,9 @@ export const dictionaries = {
   es: {
     nav: { products: 'Productos', how: 'Cómo funciona', reviews: 'Reseñas', faq: 'FAQ', support: 'Soporte' },
     heroH1: 'Plantillas en Excel & Google Sheets para decidir con datos',
-    heroP: 'Mide margen real, ROAS y stock crítico. Sin macros. EU VAT‑ready.',
+    heroP: 'Mide margen real, ROAS y stock crítico. Sin macros. EU VAT-ready.',
     ctas: { demo: 'Probar demo', gumroad: 'Comprar en Gumroad', etsy: 'Ver en Etsy', buyNow: 'Comprar ahora', seeAll: 'Ver todos →' },
-    badges: ['Excel + Google Sheets', 'ES/EN', 'EU‑ready'],
+    badges: ['Excel + Google Sheets', 'ES/EN', 'EU-ready'],
     productsTitle: 'Más herramientas',
     featuresTitle: 'Qué puedes hacer',
     howTitle: 'Cómo funciona',
@@ -46,10 +46,10 @@ export const dictionaries = {
   },
   en: {
     nav: { products: 'Products', how: 'How it works', reviews: 'Reviews', faq: 'FAQ', support: 'Support' },
-    heroH1: 'Excel & Google Sheets templates to make data‑driven decisions',
-    heroP: 'Track true margin, ROAS and critical stock. No macros. EU VAT‑ready.',
+    heroH1: 'Excel & Google Sheets templates to make data-driven decisions',
+    heroP: 'Track true margin, ROAS and critical stock. No macros. EU VAT-ready.',
     ctas: { demo: 'Try demo', gumroad: 'Buy on Gumroad', etsy: 'See on Etsy', buyNow: 'Buy now', seeAll: 'See all →' },
-    badges: ['Excel + Google Sheets', 'ES/EN', 'EU‑ready'],
+    badges: ['Excel + Google Sheets', 'ES/EN', 'EU-ready'],
     productsTitle: 'More tools',
     featuresTitle: 'What you can do',
     howTitle: 'How it works',
@@ -74,7 +74,7 @@ export const dictionaries = {
     ],
     reviewsTitle: 'Reviews',
     reviews: [
-      { name: 'Anna — DTC Store', text: 'Finally we see true margin with every cost. We stopped loss‑making promos.' },
+      { name: 'Anna — DTC Store', text: 'Finally we see true margin with every cost. We stopped loss-making promos.' },
       { name: 'Charles — Paid Media', text: 'Economic CPA changed our scaling decisions. Way more accurate.' }
     ],
     faqTitle: 'FAQ',
