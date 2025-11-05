@@ -1,1 +1,62 @@
-"use client";import{useEffect,useState}from"react";import{applyConsentToGtag,getStoredConsent,storeConsent,ConsentState}from"@/lib/consent";const def:ConsentState={necessary:true,analytics:false,marketing:false};export default function CookieBanner(){const[show,setShow]=useState(false);const[c,setC]=useState<ConsentState>(def);const[pref,setPref]=useState(false);useEffect(()=>{const s=getStoredConsent();if(!s){setShow(true);setC(def)}else{setC(s);applyConsentToGtag(s)}},[]);function acceptAll(){const v={necessary:true,analytics:true,marketing:true};setC(v);storeConsent(v);applyConsentToGtag(v);setShow(false)}function rejectAll(){const v={necessary:true,analytics:false,marketing:false};setC(v);storeConsent(v);applyConsentToGtag(v);setShow(false)}function save(){storeConsent(c);applyConsentToGtag(c);setPref(false);setShow(false)}if(!show)return null;return(<div className="fixed inset-0 z-[100] flex items-end md:items-center justify-center p-4"><div className="absolute inset-0 bg-black/40"/><div className="relative w-full max-w-2xl bg-white rounded-2xl shadow-xl border p-5"><h3 className="text-lg font-semibold text-[var(--brand)]">Gestiona tus cookies</h3><p className="mt-2 text-sm text-gray-600">Usamos cookies para mejorar tu experiencia. Puedes aceptar todas, rechazar o configurar tus preferencias.</p><div className="mt-5 flex flex-col sm:flex-row gap-3 justify-end"><button onClick={rejectAll} className="rounded-xl border px-4 py-2 text-sm font-medium hover:bg-gray-50">Rechazar todo</button><button onClick={()=>setPref(true)} className="rounded-xl border px-4 py-2 text-sm font-medium hover:bg-gray-50">Configurar</button><button onClick={acceptAll} className="rounded-xl bg-[var(--brand)] text-white px-4 py-2 text-sm font-semibold hover:brightness-95">Aceptar todo</button></div>{pref&&(<div className="absolute inset-0 z-10 flex items-center justify-center p-4"><div className="absolute inset-0 bg-black/20 rounded-2xl" onClick={()=>setPref(false)}/><div className="relative w-full max-w-xl bg-white border rounded-2xl p-5"><h4 className="font-semibold text-[var(--brand)]">Preferencias de cookies</h4><div className="mt-4 space-y-3"><label className="flex items-start gap-3"><input type="checkbox" checked disabled className="mt-1"/><div><div className="font-medium">Necesarias</div><div className="text-sm text-gray-600">Requeridas para el funcionamiento básico del sitio.</div></div></label><label className="flex items-start gap-3"><input type="checkbox" checked={c.analytics} onChange={e=>setC({...c,analytics:e.target.checked})} className="mt-1"/><div><div className="font-medium">Analíticas (GA4)</div><div className="text-sm text-gray-600">Nos ayudan a entender el uso del sitio para mejorar.</div></div></label><label className="flex items-start gap-3"><input type="checkbox" checked={c.marketing} onChange={e=>setC({...c,marketing:e.target.checked})} className="mt-1"/><div><div className="font-medium">Marketing</div><div className="text-sm text-gray-600">Contenido embebido y publicidad personalizada.</div></div></label></div><div className="mt-5 flex gap-3 justify-end"><button onClick={()=>setPref(false)} className="rounded-xl border px-4 py-2 text-sm">Cancelar</button><button onClick={save} className="rounded-xl bg-[var(--brand)] text-white px-4 py-2 text-sm font-semibold">Guardar preferencias</button></div></div></div>)}</div></div>)}
+// components/CookieBanner.tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+const LS_KEY = 'plab_cookie_consent'; // 'granted' | 'denied'
+
+function updateConsent(granted: boolean) {
+  if (typeof window === 'undefined') return;
+  const gtag = (window as any).gtag || ((...args: any[]) => {
+    (window as any).dataLayer = (window as any).dataLayer || [];
+    (window as any).dataLayer.push(args.length === 1 ? args[0] : args);
+  });
+
+  gtag('consent', 'update', {
+    analytics_storage: granted ? 'granted' : 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  });
+
+  try { localStorage.setItem(LS_KEY, granted ? 'granted' : 'denied'); } catch {}
+}
+
+export default function CookieBanner() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(LS_KEY);
+      if (!v) setShow(true);
+    } catch {
+      setShow(true);
+    }
+  }, []);
+
+  if (!show) return null;
+
+  return (
+    <div className="fixed inset-x-0 bottom-0 z-50">
+      <div className="mx-auto max-w-4xl m-3 rounded-xl border bg-white shadow-lg p-4 flex flex-col md:flex-row md:items-center gap-3">
+        <p className="text-sm text-slate-700 flex-1">
+          Usamos cookies para analítica anónima (GA4). Puedes aceptar o rechazar. Siempre puedes cambiar tu elección desde el navegador.
+        </p>
+        <div className="flex gap-2">
+          <button
+            onClick={() => { updateConsent(false); setShow(false); }}
+            className="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50"
+          >
+            Rechazar
+          </button>
+          <button
+            onClick={() => { updateConsent(true); setShow(false); }}
+            className="px-4 py-2 rounded-lg bg-slate-800 text-white hover:brightness-110"
+          >
+            Aceptar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
