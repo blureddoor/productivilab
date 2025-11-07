@@ -30,17 +30,12 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-white/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link href="/" className="flex items-center gap-2">
-          {/* Imagen de logo (fallback a texto si no existe la imagen) */}
+        <Link href="/" aria-label="Ir a inicio">
           <img
             src="/logo-productivilab.png"
             alt="ProductiviLab"
             className="h-6 w-auto"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
-            }}
           />
-          <span className="text-base font-semibold text-slate-800">ProductiviLab</span>
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
@@ -58,16 +53,14 @@ export default function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2">
-          <a
-            href={gumroadUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-xl bg-[#FF5733] px-3 py-2 text-sm font-semibold text-white hover:brightness-95"
-          >
-            {locale === 'es' ? 'Comprar en Gumroad' : 'Buy on Gumroad'}
-          </a>
-        </div>
+        <a
+          href={gumroadUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="rounded-xl bg-[#FF5733] px-3 py-2 text-sm font-semibold text-white hover:brightness-95"
+        >
+          {locale === 'es' ? 'Comprar en Gumroad' : 'Buy on Gumroad'}
+        </a>
       </div>
     </header>
   );

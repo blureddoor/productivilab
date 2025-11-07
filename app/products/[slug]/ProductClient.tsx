@@ -117,16 +117,7 @@ export default function ProductClient({ slug }: { slug: string }) {
         {JSON.stringify(breadcrumbsJsonLd)}
       </Script>
 
-      {/* ← Volver a inicio */}
-      <div className="mb-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
-        >
-          <span aria-hidden>←</span>
-          {locale === 'es' ? 'Volver a inicio' : 'Back to home'}
-        </Link>
-      </div>
+      {/* (quitamos "Volver a inicio" para evitar duplicados) */}
 
       <h1 className="text-3xl font-bold text-[#3A4861]">{name}</h1>
       <p className="text-slate-700 mt-2">{tagline}</p>
