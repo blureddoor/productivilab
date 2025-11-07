@@ -1,18 +1,59 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+import { useEffect } from 'react';
 import type { Locale } from '@/content/i18n';
 import { products } from '@/content/products';
 import ProductCard from '@/components/ProductCard';
+import { pushDL } from '@/lib/gtm';
 
-export default function ProductsGrid() {
-  const [locale, setLocale] = useState<Locale>('es');
+type Props = {
+  locale: Locale;
+  /** Identificador del listado para GA4 (home/products, etc.) */
+  listId?: string;
+  /** Nombre legible del listado para GA4 */
+  listName?: string;
+  className?: string;
+};
+
+/**
+ * Grid reutilizable de productos.
+ * Emite GA4 `view_item_list` con los items visibles.
+ */
+export default function ProductsGrid({
+  locale,
+  listId = 'home_products',
+  listName = 'Home – Más herramientas',
+  className = '',
+}: Props) {
+  // dispara view_item_list al montar (y cuando cambie el locale)
   useEffect(() => {
-    const stored = (typeof window !== 'undefined' && (localStorage.getItem('lang') as Locale)) || 'es';
-    setLocale(stored);
-  }, []);
+    try {
+      pushDL('view_item_list', {
+        item_list_id: listId,
+        item_list_name: listName,
+        items: products.map((p) => ({
+          item_id: p.slug,
+          item_name: p.name?.[locale] ?? p.slug,
+        })),
+      });
+    } catch {
+      /* no-op */
+    }
+  }, [locale, listId, listName]);
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {products.map(p => <ProductCard key={p.slug} p={p} locale={locale} />)}
+    <div className={className}>
+      <div className="grid gap-6 md:grid-cols-2">
+        {products.map((p) => (
+          <ProductCard
+            key={p.slug}
+            product={p as any}
+            locale={locale}
+            listId={listId}
+            listName={listName}
+          />
+        ))}
+      </div>
     </div>
   );
 }
