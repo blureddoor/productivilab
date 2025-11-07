@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./styles/globals.css";
-import Header from "@/components/Header";
 import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
+import SiteHeader from "@/components/SiteHeader";
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const SITE = "https://productivilab.com";
 
 export const metadata: Metadata = {
   title: "E-commerce Profit & Ads Planner — ProductiviLab",
-  description: "Controla tu rentabilidad real en Excel y Google Sheets: ROAS, CPA y Break-even EU-ready.",
+  description:
+    "Controla tu rentabilidad real en Excel y Google Sheets: ROAS, CPA y Break-even EU-ready.",
   openGraph: {
     title: "E-commerce Profit & Ads Planner — ProductiviLab",
     description: "ROAS, CPA y Break-even en un dashboard limpio. Excel + Google Sheets.",
@@ -40,32 +41,45 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       url: SITE,
     },
   };
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
-      { "@type": "Question", name: "¿Funciona con Excel y Google Sheets?", acceptedAnswer: { "@type": "Answer", text: "Sí, incluye versiones para ambos." } },
-      { "@type": "Question", name: "¿Incluye IVA y tarifas?", acceptedAnswer: { "@type": "Answer", text: "Puedes configurarlos en SETTINGS. Todo es editable." } },
-      { "@type": "Question", name: "¿Hay demo gratuita?", acceptedAnswer: { "@type": "Answer", text: "Sí, puedes abrir la demo en Google Sheets vía enlace /copy." } },
+      {
+        "@type": "Question",
+        name: "¿Funciona con Excel y Google Sheets?",
+        acceptedAnswer: { "@type": "Answer", text: "Sí, incluye versiones para ambos." },
+      },
+      {
+        "@type": "Question",
+        name: "¿Incluye IVA y tarifas?",
+        acceptedAnswer: { "@type": "Answer", text: "Puedes configurarlos en SETTINGS. Todo es editable." },
+      },
+      {
+        "@type": "Question",
+        name: "¿Hay demo gratuita?",
+        acceptedAnswer: { "@type": "Answer", text: "Sí, puedes abrir la demo en Google Sheets vía enlace /copy." },
+      },
     ],
   };
 
   return (
     <html lang="es">
       <head>
-        {/* Consent Mode por defecto */}
+        {/* Consent por defecto */}
         <Script id="cm-default" strategy="beforeInteractive">{`
           window.dataLayer = window.dataLayer || [];
-          function gtag(){ dataLayer.push(arguments); }
+          function gtag(){window.dataLayer.push(arguments);}
           gtag('consent','default',{
-            'ad_storage':'denied',
-            'analytics_storage':'denied',
-            'ad_user_data':'denied',
-            'ad_personalization':'denied'
+            ad_storage:'denied',
+            analytics_storage:'denied',
+            ad_user_data:'denied',
+            ad_personalization:'denied'
           });
         `}</Script>
 
-        {/* GA (si has puesto el ID) */}
+        {/* GA4 (si está configurado) */}
         {GA_ID && (
           <>
             <Script
@@ -74,7 +88,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             />
             <Script id="ga-init" strategy="afterInteractive">{`
               window.dataLayer = window.dataLayer || [];
-              function gtag(){ dataLayer.push(arguments); }
+              function gtag(){window.dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${GA_ID}', { anonymize_ip: true });
             `}</Script>
@@ -90,8 +104,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </Script>
       </head>
       <body>
-        <Header />
+        {/* Header único del sitio con: Productos / Cómo funciona / Reseñas / FAQ / Soporte */}
+        <SiteHeader />
+
         {children}
+
         <CookieBanner />
         <Footer />
       </body>

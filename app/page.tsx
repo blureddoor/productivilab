@@ -39,56 +39,6 @@ export default function Page() {
 
   return (
     <main className="min-h-screen bg-[#F5F7FA]">
-      {/* Header nav */}
-      <div className="sticky top-0 z-20 bg-white/70 backdrop-blur border-b">
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/logo-productivilab.png"
-              alt="ProductiviLab"
-              width={240}
-              height={60}
-              className="h-8 w-auto md:h-10"
-              priority
-            />
-            <span className="hidden md:inline text-sm text-slate-600">
-              Herramientas para e-commerce
-            </span>
-          </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm text-slate-700">
-            <a href="/products" className="hover:text-slate-900">
-              {t.nav.products}
-            </a>
-            <a href="#how-it-works" className="hover:text-slate-900">
-              {t.nav.how}
-            </a>
-            <a href="#reviews" className="hover:text-slate-900">
-              {t.nav.reviews}
-            </a>
-            <a href="#faq" className="hover:text-slate-900">
-              {t.nav.faq}
-            </a>
-            <a href="mailto:soporte@productivilab.com" className="hover:text-slate-900">
-              {t.nav.support}
-            </a>
-          </nav>
-          <div className="flex items-center gap-3">
-            <LanguageSwitch onChange={(l) => setLocale(l)} />
-            {ctaPrimary && (
-              <CtaLink
-                href={ctaPrimary}
-                ctaType="gumroad"
-                ctaLocation="home_nav"
-                productSlug="ecommerce-profit-ads-planner"
-                className={buyBtn}
-              >
-                {t.ctas.gumroad}
-              </CtaLink>
-            )}
-          </div>
-        </div>
-      </div>
-
       {/* Hero */}
       <div className="max-w-6xl mx-auto px-6 pt-10">
         <div className="grid md:grid-cols-2 gap-8 items-center">
