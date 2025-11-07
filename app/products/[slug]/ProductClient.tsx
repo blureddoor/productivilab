@@ -69,7 +69,7 @@ export default function ProductClient({ slug }: { slug: string }) {
   const videoBtn =
     'rounded-xl border border-slate-800 text-slate-800 px-4 py-2 font-medium hover:bg-slate-50';
 
-  // ---- GA4: view_item al cargar la ficha ----
+  // GA4: view_item al cargar la ficha
   useEffect(() => {
     pushDL('view_item', {
       items: [
@@ -85,10 +85,10 @@ export default function ProductClient({ slug }: { slug: string }) {
     });
   }, [slug, name, priceNumber, locale]);
 
-  // ---- NUEVO: Scroll depth 25/50/75% ----
+  // Scroll depth 25/50/75%
   useScrollDepth({ thresholds: [25, 50, 75], productSlug: slug, locale });
 
-  // ---- JSON-LD: Product + Breadcrumbs ----
+  // JSON-LD
   const productJsonLd = useMemo(
     () => ({
       '@context': 'https://schema.org',
@@ -230,7 +230,7 @@ export default function ProductClient({ slug }: { slug: string }) {
             </h2>
             <ul className="mt-3 list-disc pl-5 space-y-1 text-slate-700">
               {includes.map((it, i) => (
-                <li key={i}>{it}
+                <li key={i}>{it}</li>   {/* ✅ cerrado correctamente */}
               ))}
             </ul>
           </section>
