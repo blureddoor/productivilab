@@ -33,10 +33,20 @@ export default function SiteHeader() {
     location.reload();
   };
 
+  const t = {
+    products: locale === 'es' ? 'Productos' : 'Products',
+    how: locale === 'es' ? 'Cómo funciona' : 'How it works',
+    reviews: locale === 'es' ? 'Reseñas' : 'Reviews',
+    faq: 'FAQ',
+    support: locale === 'es' ? 'Soporte' : 'Support',
+    buy: locale === 'es' ? 'Comprar en Gumroad' : 'Buy on Gumroad',
+  };
+
   return (
     <header className="w-full border-b bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 gap-4">
+        {/* Logo */}
+        <div className="flex items-center gap-3 shrink-0">
           <Link href="/" aria-label="Home">
             <img
               src="/logo-productivilab.png"
@@ -44,37 +54,45 @@ export default function SiteHeader() {
               className="h-7 w-auto"
             />
           </Link>
-
-          <nav className="hidden items-center gap-6 md:flex">
-            <Link href="/products" className="text-sm text-slate-700 hover:text-slate-900">
-              {locale === 'es' ? 'Productos' : 'Products'}
-            </Link>
-            <a href="/#how" className="text-sm text-slate-700 hover:text-slate-900">
-              {locale === 'es' ? 'Cómo funciona' : 'How it works'}
-            </a>
-            <Link href="/reviews" className="text-sm text-slate-700 hover:text-slate-900">
-              {locale === 'es' ? 'Reseñas' : 'Reviews'}
-            </Link>
-            <Link href="/faq" className="text-sm text-slate-700 hover:text-slate-900">
-              FAQ
-            </Link>
-            <Link href="/support" className="text-sm text-slate-700 hover:text-slate-900">
-              {locale === 'es' ? 'Soporte' : 'Support'}
-            </Link>
-          </nav>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* Nav SIEMPRE visible */}
+        <nav className="flex items-center gap-6 text-sm flex-1">
+          <Link href="/products" className="text-slate-700 hover:text-slate-900">
+            {t.products}
+          </Link>
+          <Link href="/#how" className="text-slate-700 hover:text-slate-900">
+            {t.how}
+          </Link>
+          <Link href="/#reviews" className="text-slate-700 hover:text-slate-900">
+            {t.reviews}
+          </Link>
+          <Link href="/#faq" className="text-slate-700 hover:text-slate-900">
+            {t.faq}
+          </Link>
+          <Link href="/#support" className="text-slate-700 hover:text-slate-900">
+            {t.support}
+          </Link>
+        </nav>
+
+        {/* Idioma + CTA */}
+        <div className="flex items-center gap-3 shrink-0">
           <div className="rounded-full border p-0.5">
             <button
               onClick={() => switchLang('es')}
-              className={`px-2 py-1 text-sm rounded-full ${locale === 'es' ? 'bg-slate-900 text-white' : 'text-slate-700'}`}
+              className={`px-2 py-1 text-sm rounded-full ${
+                locale === 'es' ? 'bg-slate-900 text-white' : 'text-slate-700'
+              }`}
+              aria-pressed={locale === 'es'}
             >
               ES
             </button>
             <button
               onClick={() => switchLang('en')}
-              className={`px-2 py-1 text-sm rounded-full ${locale === 'en' ? 'bg-slate-900 text-white' : 'text-slate-700'}`}
+              className={`px-2 py-1 text-sm rounded-full ${
+                locale === 'en' ? 'bg-slate-900 text-white' : 'text-slate-700'
+              }`}
+              aria-pressed={locale === 'en'}
             >
               EN
             </button>
@@ -86,7 +104,7 @@ export default function SiteHeader() {
             rel="noreferrer"
             className="rounded-xl bg-[#FF5733] px-3 py-2 text-sm font-semibold text-white hover:brightness-95"
           >
-            {locale === 'es' ? 'Comprar en Gumroad' : 'Buy on Gumroad'}
+            {t.buy}
           </a>
         </div>
       </div>
