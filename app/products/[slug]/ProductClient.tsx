@@ -101,4 +101,141 @@ export default function ProductClient({ slug }: { slug: string }) {
     offers: {
       '@type': 'Offer',
       price: String(priceNumber ?? 19),
-      pri
+      priceCurrency: 'EUR',
+      availability: 'https://schema.org/InStock',
+      url: `${SITE}/products/${slug}`,
+    },
+  };
+
+  const breadcrumbsJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: locale === 'es' ? 'Productos' : 'Products',
+        item: `${SITE}/products`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name,
+        item: `${SITE}/products/${slug}`,
+      },
+    ],
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-10">
+      {/* JSON-LD */}
+      <Script
+        id="jsonld-product"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <Script
+        id="jsonld-breadcrumbs"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
+
+      <h1 className="text-3xl font-bold text-[#3A4861]">{name}</h1>
+      <p className="text-slate-700 mt-2">{tagline}</p>
+      {priceFrom && <p className="text-slate-500 mt-1">{priceFrom}</p>}
+
+      {video && (
+        <div className="mt-6">
+          <div className="aspect-video w-full overflow-hidden rounded-2xl border shadow-sm">
+            <iframe
+              id={`yt-${slug}`}
+              className="h-full w-full"
+              src={toEmbed(video)}
+              title={`${name} — video`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+          <div className="mt-3">
+            <CtaLink
+              href={video}
+              ctaType="video"
+              ctaLocation="product_page_video"
+              productSlug={slug}
+              className={videoBtn}
+            >
+              {locale === 'es' ? 'Ver en YouTube' : 'Watch on YouTube'}
+            </CtaLink>
+          </div>
+        </div>
+      )}
+
+      <div className="mt-6 flex flex-wrap gap-3">
+        {gumroad && (
+          <CtaLink
+            href={gumroad}
+            ctaType="gumroad"
+            ctaLocation="product_page_hero"
+            productSlug={slug}
+            className={buyBtn}
+          >
+            {ctaLabel}
+          </CtaLink>
+        )}
+        {etsy && (
+          <CtaLink
+            href={etsy}
+            ctaType="etsy"
+            ctaLocation="product_page_hero"
+            productSlug={slug}
+            className={secondaryBtn}
+          >
+            Etsy
+          </CtaLink>
+        )}
+        {demo && (
+          <CtaLink
+            href={demo}
+            ctaType="demo"
+            ctaLocation="product_page_hero"
+            productSlug={slug}
+            className={demoBtn}
+          >
+            {demoLabel}
+          </CtaLink>
+        )}
+      </div>
+
+      <div className="mt-10 grid md:grid-cols-2 gap-6">
+        {features.length > 0 && (
+          <section className="rounded-2xl border bg-white p-6">
+            <h2 className="text-xl font-semibold text-slate-800">
+              {locale === 'es' ? 'Qué puedes hacer' : 'What you can do'}
+            </h2>
+            <ul className="mt-3 list-disc pl-5 space-y-1 text-slate-700">
+              {features.map((f, i) => (
+                <li key={i}>{f}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+        {includes.length > 0 && (
+          <section className="rounded-2xl border bg-white p-6">
+            <h2 className="text-xl font-semibold text-slate-800">
+              {locale === 'es' ? 'Incluye' : 'Includes'}
+            </h2>
+            <ul className="mt-3 list-disc pl-5 space-y-1 text-slate-700">
+              {includes.map((it, i) => (
+                <li key={i}>{it}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  );
+}
