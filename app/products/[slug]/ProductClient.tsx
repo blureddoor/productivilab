@@ -5,6 +5,7 @@ import type { Locale } from '@/content/i18n';
 import { products } from '@/content/products';
 import CtaLink from '@/components/CtaLink';
 import { pushDL } from '@/lib/gtm';
+import useScrollDepth from '@/lib/useScrollDepth';
 
 const SITE = 'https://productivilab.com';
 
@@ -16,15 +17,8 @@ function toEmbed(url?: string) {
   try {
     const abs = u.startsWith('http') ? u : `https://${u}`;
     const uri = new URL(abs);
-    // Obligatorio para que el trigger de YouTube funcione
     uri.searchParams.set('enablejsapi', '1');
-    // Usa el origin real del navegador (ej: https://www.productivilab.com) para evitar desajustes
-    if (typeof window !== 'undefined') {
-      uri.searchParams.set('origin', window.location.origin);
-    } else {
-      uri.searchParams.delete('origin');
-    }
-    // Opcionales de UX
+    if (typeof window !== 'undefined') uri.searchParams.set('origin', window.location.origin);
     uri.searchParams.set('rel', '0');
     uri.searchParams.set('modestbranding', '1');
     return uri.toString();
@@ -91,6 +85,9 @@ export default function ProductClient({ slug }: { slug: string }) {
     });
   }, [slug, name, priceNumber, locale]);
 
+  // ---- NUEVO: Scroll depth 25/50/75% ----
+  useScrollDepth({ thresholds: [25, 50, 75], productSlug: slug, locale });
+
   // ---- JSON-LD: Product + Breadcrumbs ----
   const productJsonLd = useMemo(
     () => ({
@@ -136,7 +133,6 @@ export default function ProductClient({ slug }: { slug: string }) {
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
-      {/* JSON-LD específicos de la ficha */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
@@ -234,7 +230,7 @@ export default function ProductClient({ slug }: { slug: string }) {
             </h2>
             <ul className="mt-3 list-disc pl-5 space-y-1 text-slate-700">
               {includes.map((it, i) => (
-                <li key={i}>{it}</li>
+                <li key={i}>{it}
               ))}
             </ul>
           </section>

@@ -1,48 +1,38 @@
-// lib/gtm.ts
-type CtaType = 'gumroad' | 'etsy' | 'demo' | 'video';
-type Lang = 'es' | 'en';
+'use client';
 
-function getLocaleSafe(): Lang {
+// Simple helper para empujar al dataLayer
+export function pushDL(event: string, params: Record<string, any> = {}) {
   try {
-    if (typeof window !== 'undefined') {
-      const stored = (localStorage.getItem('lang') as Lang) || 'es';
-      return stored === 'en' ? 'en' : 'es';
-    }
+    // @ts-ignore
+    window.dataLayer = window.dataLayer || [];
+    // @ts-ignore
+    window.dataLayer.push({ event, ...params });
   } catch {}
-  return 'es';
 }
 
-/** Empuja un evento al dataLayer de GTM (seguro para SSR). */
-export function pushDL(event: string, params: Record<string, unknown> = {}) {
-  if (typeof window === 'undefined') return;
-  (window as any).dataLayer = (window as any).dataLayer || [];
-  (window as any).dataLayer.push({ event, ...params });
-}
-
-/** Traquea clics de CTA con un esquema estándar. */
+// ---- CTA tracking (ya lo estabas usando) ----
 export function trackCta(params: {
-  cta_location: string;            // ej: 'home_hero' | 'products_grid' | 'product_page_hero' | 'footer'
-  cta_type: CtaType;               // 'gumroad' | 'etsy' | 'demo' | 'video'
-  product_slug?: string;           // ej: 'inventory-reorder-pro'
-  locale?: Lang;                   // opcional, si no se pasa, lo resolvemos
+  cta_type: 'gumroad' | 'etsy' | 'demo' | 'video';
+  cta_location: string;
+  product_slug?: string;
+  locale?: string;
+  href?: string;
 }) {
-  const locale = params.locale || getLocaleSafe();
-  pushDL('cta_click', {
-    cta_location: params.cta_location,
-    cta_type: params.cta_type,
-    product_slug: params.product_slug || undefined,
-    locale,
-  });
+  pushDL('cta_click', params);
 }
 
-/**
- * Si NO abres en nueva pestaña:
- * llamas a trackCta, previenes navegación y navegas con un pequeño delay
- * para no perder el hit al salir de la página.
- */
+// Si alguna vez necesitas retardar navegación en la misma pestaña
 export function navigateAfterTrack(href: string, delayMs = 120) {
-  if (typeof window === 'undefined') return;
-  setTimeout(() => {
+  try {
+    setTimeout(() => {
+      window.location.assign(href);
+    }, delayMs);
+  } catch {
     window.location.href = href;
-  }, delayMs);
+  }
+}
+
+// ---- NUEVO: scroll depth helper (opcional) ----
+export function trackScrollDepth(percent: number, extras: { product_slug?: string; locale?: string; page_path?: string } = {}) {
+  pushDL('scroll_depth', { scroll_percent: percent, ...extras });
 }

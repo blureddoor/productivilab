@@ -3,57 +3,52 @@
 import { useEffect } from 'react';
 import type { Locale } from '@/content/i18n';
 import { products } from '@/content/products';
-import ProductCard from '@/components/ProductCard';
 import { pushDL } from '@/lib/gtm';
+import ProductCard from '@/components/ProductCard';
+
+function currentLocale(): Locale {
+  if (typeof document !== 'undefined') {
+    const lang = document.documentElement.getAttribute('lang');
+    if (lang === 'en') return 'en' as Locale;
+  }
+  return 'es' as Locale;
+}
 
 type Props = {
-  locale: Locale;
-  /** Identificador del listado para GA4 (home/products, etc.) */
-  listId?: string;
-  /** Nombre legible del listado para GA4 */
-  listName?: string;
-  className?: string;
+  locale?: Locale;                 // <-- ahora opcional
+  itemListId?: string;
+  itemListName?: string;
 };
 
-/**
- * Grid reutilizable de productos.
- * Emite GA4 `view_item_list` con los items visibles.
- */
 export default function ProductsGrid({
   locale,
-  listId = 'home_products',
-  listName = 'Home – Más herramientas',
-  className = '',
+  itemListId = 'home_featured',
+  itemListName = 'Home — Más herramientas',
 }: Props) {
-  // dispara view_item_list al montar (y cuando cambie el locale)
+  const loc = locale ?? currentLocale();
+
+  // view_item_list para GA4
   useEffect(() => {
     try {
+      const items = products.map((p, idx) => ({
+        item_id: p.slug,
+        item_name: p.name[loc],
+        index: idx + 1,
+      }));
       pushDL('view_item_list', {
-        item_list_id: listId,
-        item_list_name: listName,
-        items: products.map((p) => ({
-          item_id: p.slug,
-          item_name: p.name?.[locale] ?? p.slug,
-        })),
+        item_list_id: itemListId,
+        item_list_name: itemListName,
+        items,
+        locale: loc,
       });
-    } catch {
-      /* no-op */
-    }
-  }, [locale, listId, listName]);
+    } catch {}
+  }, [loc, itemListId, itemListName]);
 
   return (
-    <div className={className}>
-      <div className="grid gap-6 md:grid-cols-2">
-        {products.map((p) => (
-          <ProductCard
-            key={p.slug}
-            product={p as any}
-            locale={locale}
-            listId={listId}
-            listName={listName}
-          />
-        ))}
-      </div>
+    <div className="grid gap-6 md:grid-cols-2">
+      {products.map((p, i) => (
+        <ProductCard key={p.slug} product={p} index={i + 1} locale={loc} />
+      ))}
     </div>
   );
 }
