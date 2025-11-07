@@ -16,10 +16,20 @@ type Props = {
   limit?: number;
 };
 
+/** ---- Portadas por slug (pon aquí tus rutas en /public/...) ----
+ * Sube las imágenes a: public/images/covers/
+ * y ajusta las rutas de abajo SIN poner /public al inicio.
+ */
+const coversBySlug: Record<string, string> = {
+  'ecommerce-profit-ads-planner': '/images/covers/ecommerce-ads-planner.png',
+  'inventory-reorder-pro': '/images/covers/inventory-reorder-pro.png',
+};
+/** --------------------------------------------------------------- */
+
 function getLocaleFromStorage(): Locale {
   if (typeof window === 'undefined') return 'es';
   const l = (localStorage.getItem('lang') as Locale) || 'es';
-  return (l === 'en' ? 'en' : 'es');
+  return l === 'en' ? 'en' : 'es';
 }
 
 export default function ProductsGrid({ locale: localeProp, itemListName = 'home_grid', limit }: Props) {
@@ -34,18 +44,19 @@ export default function ProductsGrid({ locale: localeProp, itemListName = 'home_
   // Productos a mostrar
   const items = useMemo(() => {
     const base = products.slice(0, limit || products.length);
-    return base.map(p => ({
+    return base.map((p) => ({
       slug: p.slug,
       name: p.name[locale],
       tagline: p.tagline[locale],
       priceFrom: p.priceFrom?.[locale],
       gumroad: p.gumroad?.[locale],
       etsy: p.etsy?.[locale],
-      cover: (p as any).cover || '/og-image.png', // fallback seguro
+      // 1) usa cover por slug; 2) si no, usa p.cover si algún día lo añades en el content; 3) fallback genérico
+      cover: coversBySlug[p.slug] || (p as any).cover || '/og-image.png',
       badges: [
         (p as any).excel ?? 'Excel + Google Sheets',
         (p as any).bilingual ?? 'ES/EN',
-        (p as any).euReady ?? 'EU-ready'
+        (p as any).euReady ?? 'EU-ready',
       ],
     }));
   }, [locale, limit]);
@@ -88,7 +99,7 @@ export default function ProductsGrid({ locale: localeProp, itemListName = 'home_
             className="block"
           >
             <div className="overflow-hidden rounded-xl border">
-              {/* Si tienes next/image, puedes cambiar a <Image … fill /> con un contenedor relative */}
+              {/* Si usas next/image, puedes cambiar a <Image … /> */}
               <img
                 src={p.cover}
                 alt={p.name}
@@ -105,7 +116,7 @@ export default function ProductsGrid({ locale: localeProp, itemListName = 'home_
             </div>
             <p className="mt-1 text-sm text-slate-600">{p.tagline}</p>
 
-            {/* Badges simples (puedes mapear las reales si las tienes en el content) */}
+            {/* Badges simples */}
             <div className="mt-3 flex flex-wrap gap-2">
               <span className="rounded-full border px-2.5 py-1 text-xs text-slate-700">Excel + Google Sheets</span>
               <span className="rounded-full border px-2.5 py-1 text-xs text-slate-700">ES/EN</span>
@@ -121,7 +132,7 @@ export default function ProductsGrid({ locale: localeProp, itemListName = 'home_
                 {t.moreInfo}
               </Link>
 
-              {/* CTA de compra (prioriza Gumroad; si no hay, intenta Etsy; si no, oculta) */}
+              {/* CTA de compra (prioriza Gumroad; si no hay, Etsy) */}
               {p.gumroad ? (
                 <CtaLink
                   href={p.gumroad}
