@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Script from 'next/script';
 import type { Locale } from '@/content/i18n';
 import { products } from '@/content/products';
@@ -70,26 +71,16 @@ export default function ProductClient({ slug }: { slug: string }) {
   const videoBtn =
     'rounded-xl border border-slate-800 text-slate-800 px-4 py-2 font-medium hover:bg-slate-50';
 
-  // GA4: view_item al cargar la ficha
   useEffect(() => {
     pushDL('view_item', {
-      items: [
-        {
-          item_id: slug,
-          item_name: name,
-          price: priceNumber ?? undefined,
-          currency: 'EUR',
-        },
-      ],
+      items: [{ item_id: slug, item_name: name, price: priceNumber ?? undefined, currency: 'EUR' }],
       product_slug: slug,
       locale,
     });
   }, [slug, name, priceNumber, locale]);
 
-  // Scroll depth 25/50/75%
   useScrollDepth({ thresholds: [25, 50, 75], productSlug: slug, locale });
 
-  // JSON-LD (sin useMemo para evitar paréntesis extra)
   const productJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -111,36 +102,31 @@ export default function ProductClient({ slug }: { slug: string }) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      {
-        '@type': 'ListItem',
-        position: 1,
-        name: locale === 'es' ? 'Productos' : 'Products',
-        item: `${SITE}/products`,
-      },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name,
-        item: `${SITE}/products/${slug}`,
-      },
+      { '@type': 'ListItem', position: 1, name: locale === 'es' ? 'Productos' : 'Products', item: `${SITE}/products` },
+      { '@type': 'ListItem', position: 2, name, item: `${SITE}/products/${slug}` },
     ],
   };
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
       {/* JSON-LD */}
-      <Script
-        id="jsonld-product"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
-      />
-      <Script
-        id="jsonld-breadcrumbs"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
-      />
+      <Script id="jsonld-product" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(productJsonLd)}
+      </Script>
+      <Script id="jsonld-breadcrumbs" type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(breadcrumbsJsonLd)}
+      </Script>
+
+      {/* ← Volver a inicio */}
+      <div className="mb-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900"
+        >
+          <span aria-hidden>←</span>
+          {locale === 'es' ? 'Volver a inicio' : 'Back to home'}
+        </Link>
+      </div>
 
       <h1 className="text-3xl font-bold text-[#3A4861]">{name}</h1>
       <p className="text-slate-700 mt-2">{tagline}</p>

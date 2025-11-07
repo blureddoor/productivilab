@@ -1,21 +1,19 @@
-// app/layout.tsx
 import type { Metadata } from "next";
 import Script from "next/script";
 import "./styles/globals.css";
+import Header from "@/components/Header";
 import CookieBanner from "@/components/CookieBanner";
 import Footer from "@/components/Footer";
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID; // p.ej. GTM-W5MHWXL5
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
 const SITE = "https://productivilab.com";
 
 export const metadata: Metadata = {
   title: "E-commerce Profit & Ads Planner — ProductiviLab",
-  description:
-    "Controla tu rentabilidad real en Excel y Google Sheets: ROAS, CPA y Break-even EU-ready.",
+  description: "Controla tu rentabilidad real en Excel y Google Sheets: ROAS, CPA y Break-even EU-ready.",
   openGraph: {
     title: "E-commerce Profit & Ads Planner — ProductiviLab",
-    description:
-      "ROAS, CPA y Break-even en un dashboard limpio. Excel + Google Sheets.",
+    description: "ROAS, CPA y Break-even en un dashboard limpio. Excel + Google Sheets.",
     url: SITE,
     siteName: "ProductiviLab",
     images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "ProductiviLab" }],
@@ -41,65 +39,47 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       availability: "https://schema.org/InStock",
       url: SITE,
     },
-  } as const;
-
+  };
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
-      {
-        "@type": "Question",
-        name: "¿Funciona con Excel y Google Sheets?",
-        acceptedAnswer: { "@type": "Answer", text: "Sí, incluye versiones para ambos." },
-      },
-      {
-        "@type": "Question",
-        name: "¿Incluye IVA y tarifas?",
-        acceptedAnswer: { "@type": "Answer", text: "Puedes configurarlos en SETTINGS. Todo es editable." },
-      },
-      {
-        "@type": "Question",
-        name: "¿Hay demo gratuita?",
-        acceptedAnswer: { "@type": "Answer", text: "Sí, puedes abrir la demo en Google Sheets vía enlace /copy." },
-      },
+      { "@type": "Question", name: "¿Funciona con Excel y Google Sheets?", acceptedAnswer: { "@type": "Answer", text: "Sí, incluye versiones para ambos." } },
+      { "@type": "Question", name: "¿Incluye IVA y tarifas?", acceptedAnswer: { "@type": "Answer", text: "Puedes configurarlos en SETTINGS. Todo es editable." } },
+      { "@type": "Question", name: "¿Hay demo gratuita?", acceptedAnswer: { "@type": "Answer", text: "Sí, puedes abrir la demo en Google Sheets vía enlace /copy." } },
     ],
-  } as const;
+  };
 
   return (
     <html lang="es">
       <head>
-        {/* Consent Mode por defecto: ANTES de GTM */}
-        <Script id="cm-default" strategy="beforeInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('consent','default',{
-              'ad_storage':'denied',
-              'analytics_storage':'denied',
-              'ad_user_data':'denied',
-              'ad_personalization':'denied'
-            });
-          `}
-        </Script>
+        {/* Consent Mode por defecto */}
+        <Script id="cm-default" strategy="beforeInteractive">{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ dataLayer.push(arguments); }
+          gtag('consent','default',{
+            'ad_storage':'denied',
+            'analytics_storage':'denied',
+            'ad_user_data':'denied',
+            'ad_personalization':'denied'
+          });
+        `}</Script>
 
-        {/* Debug opcional: confirma que el ID llega en build */}
-        <Script id="plab-gtm-debug" strategy="beforeInteractive">
-          {`console.debug('[PLAB] NEXT_PUBLIC_GTM_ID:', '${GTM_ID ?? 'MISSING'}');`}
-        </Script>
-
-        {/* Google Tag Manager (script en <head>) */}
-        {GTM_ID && (
-          <Script id="gtm-init" strategy="beforeInteractive">
-            {`
-              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','${GTM_ID}');
-            `}
-          </Script>
+        {/* GA (si has puesto el ID) */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga-init" strategy="afterInteractive">{`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){ dataLayer.push(arguments); }
+              gtag('js', new Date());
+              gtag('config', '${GA_ID}', { anonymize_ip: true });
+            `}</Script>
+          </>
         )}
-        {/* End GTM */}
 
         {/* JSON-LD */}
         <Script type="application/ld+json" id="product-jsonld" strategy="afterInteractive">
@@ -109,21 +89,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {JSON.stringify(faqJsonLd)}
         </Script>
       </head>
-
       <body>
-        {/* Google Tag Manager (noscript) — justo tras <body> */}
-        {GTM_ID && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            />
-          </noscript>
-        )}
-        {/* End GTM noscript */}
-
+        <Header />
         {children}
         <CookieBanner />
         <Footer />
