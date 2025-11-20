@@ -40,6 +40,7 @@ export default function SiteHeader() {
     faq: 'FAQ',
     support: locale === 'es' ? 'Soporte' : 'Support',
     buy: locale === 'es' ? 'Comprar en Gumroad' : 'Buy on Gumroad',
+    freebie: locale === 'es' ? 'Calculadora ROAS gratis' : 'Free ROAS calculator',
   };
 
   return (
@@ -72,6 +73,14 @@ export default function SiteHeader() {
           </Link>
           <Link href="/#support" className="text-slate-700 hover:text-slate-900">
             {t.support}
+          </Link>
+
+          {/* Nuevo enlace al freebie ROAS */}
+          <Link
+            href="/freebies/roas-calculator"
+            className="text-slate-700 hover:text-slate-900 font-semibold"
+          >
+            {t.freebie}
           </Link>
         </nav>
 
